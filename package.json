@@ -5,7 +5,13 @@
   "main": "main.js",
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "lint": "eslint ${@:-.}",
+    "lint:fix": "eslint --fix ${@:-.}",
+    "lint:sarif": "eslint -f ./main.js --fix ${@:-.}",
+    "format": "prettier --write ${@:-.}",
+    "format:check": "prettier --check ${@:-.}",
+    "postinstall": "tsc",
+    "prepublishOnly": "tsc"
   },
   "author": "",
   "license": "Unlicense",
@@ -14,14 +20,14 @@
     "eslint": ">=7.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "10.0.1",
     "@total-typescript/tsconfig": "1.0.4",
     "@tsconfig/strictest": "2.0.8",
     "@types/node": "26.1.1",
     "@types/sarif": "2.1.7",
     "eslint": "10.7.0",
-    "eslint-config-prettier": "^10.1.8",
+    "eslint-config-prettier": "10.1.8",
     "typescript": "7.0.2",
-    "typescript-eslint": "^8.65.0"
+    "typescript-eslint": "8.65.0"
   }
 }
