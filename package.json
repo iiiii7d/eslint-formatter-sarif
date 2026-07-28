@@ -10,8 +10,8 @@
     "lint:sarif": "eslint -f ./main.js --fix ${@:-.}",
     "format": "prettier --write ${@:-.}",
     "format:check": "prettier --check ${@:-.}",
-    "postinstall": "tsc",
-    "prepublishOnly": "tsc"
+    "type-check": "tsc --noEmit",
+    "prepare": "tsc"
   },
   "author": "",
   "license": "Unlicense",
