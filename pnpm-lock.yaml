@@ -9,7 +9,7 @@ importers:
   .:
     devDependencies:
       '@eslint/js':
-        specifier: ^10.0.1
+        specifier: 10.0.1
         version: 10.0.1(eslint@10.7.0(supports-color@7.2.0))
       '@total-typescript/tsconfig':
         specifier: 1.0.4
@@ -27,13 +27,13 @@ importers:
         specifier: 10.7.0
         version: 10.7.0(supports-color@7.2.0)
       eslint-config-prettier:
-        specifier: ^10.1.8
+        specifier: 10.1.8
         version: 10.1.8(eslint@10.7.0(supports-color@7.2.0))
       typescript:
         specifier: 7.0.2
         version: 7.0.2
       typescript-eslint:
-        specifier: ^8.65.0
+        specifier: 8.65.0
         version: 8.65.0(eslint@10.7.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@7.0.2)
 
 packages:
