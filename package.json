@@ -1,0 +1,27 @@
+{
+  "name": "eslint-formatter-sarif",
+  "version": "1.0.0",
+  "description": "ESLint formatter that outputs lint results in SARIF (Static Analysis Results Interchange Format) 2.1.0",
+  "main": "main.js",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "author": "",
+  "license": "Unlicense",
+  "type": "module",
+  "peerDependencies": {
+    "eslint": ">=7.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@total-typescript/tsconfig": "1.0.4",
+    "@tsconfig/strictest": "2.0.8",
+    "@types/node": "26.1.1",
+    "@types/sarif": "2.1.7",
+    "eslint": "10.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "typescript": "7.0.2",
+    "typescript-eslint": "^8.65.0"
+  }
+}

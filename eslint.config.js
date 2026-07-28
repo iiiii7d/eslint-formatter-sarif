@@ -1,0 +1,38 @@
+// @ts-check
+
+import pluginJs from "@eslint/js";
+import prettierConfig from "eslint-config-prettier";
+// import tseslint from "typescript-eslint";
+import {defineConfig} from "eslint/config";
+
+export default defineConfig(
+  pluginJs.configs.all,
+  // ...tseslint.configs.strict,
+  // ...tseslint.configs.stylistic,
+  {
+    // plugins: {
+    //   "typescript-eslint": tseslint.plugin,
+    // },
+    rules: {
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "capitalized-comments": "off",
+      "id-length": "off",
+      "max-classes-per-file": "off",
+      "max-lines": "off",
+      "new-cap": "off",
+      "no-magic-numbers": "off",
+      "no-continue": "off",
+      "no-ternary": "off",
+      "no-undefined": "off",
+      "no-use-before-define": "off",
+      "no-useless-assignment": "off",
+      "one-var": "off",
+      radix: "off",
+      "sort-keys": "off",
+      "sort-imports": "off",
+    },
+  },
+  prettierConfig,
+);

@@ -1,0 +1,96 @@
+amends "package://github.com/jdx/hk/releases/download/v1.51.0/hk@1.51.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.51.0/hk@1.51.0#/Builtins.pkl"
+
+local init = new Step {
+    check = "pnpm i"
+    exclusive = true
+}
+
+local formatters = new Mapping<String, Step> {
+    ["prettier"] = (Builtins.prettier) {
+        check = "pnpm run format:check {{ files }}"
+        fix = "pnpm run format {{ files }}"
+    }
+}
+local linters = new Mapping<String, Step> {
+    ["eslint"] = (Builtins.eslint) {
+        check = "pnpm run lint {{ files }}"
+        fix = "pnpm run lint:fix {{ files }}"
+    }
+    ["zizmor"] = Builtins.zizmor
+    ["actionlint"] = Builtins.actionlint
+    ["poutine"] {
+        glob = Builtins.zizmor.glob
+        check = "poutine analyze_local . --skip github_action_from_unverified_creator_used"
+    }
+    ["hadolint"] = Builtins.hadolint
+}
+local type_checkers = new Mapping<String, Step> {
+    ["type_check"] {
+        glob = Builtins.eslint.glob
+        check = "pnpm run type-check"
+    }
+}
+local sarif = new Mapping<String, Step> {
+    ["mkdir"] {
+        fix = "mkdir .sarif || true"
+        exclusive = true
+    }
+    ["eslint"] {
+        fix = "pnpm run lint:sarif > .sarif/eslint.sarif"
+    }
+    ["zizmor"] {
+        fix = linters["zizmor"].fix.replaceAll("{{ files }}", ".") + " --format=sarif > .sarif/zizmor.sarif"
+    }
+    ["actionlint"] {
+        check = "actionlint -format \"$(curl -sSL \"https://raw.githubusercontent.com/rhysd/actionlint/refs/heads/main/testdata/format/sarif_template.txt\")\" > .sarif/actionlint.sarif"
+    }
+    ["poutine"] {
+        check = linters["poutine"].check as String + " --format=sarif > .sarif/poutine.sarif"
+    }
+    ...type_checkers
+}
+
+hooks {
+    ["pre-commit"] {
+        fix = true
+        stash = "git"
+        steps = new Mapping<String, Step | Group> {
+            ["init"] = init
+            ...formatters
+            ...linters
+            ...type_checkers
+        }
+    }
+    ["fix"] {
+        fix = true
+        steps = new Mapping<String, Step | Group> {
+            ["init"] = init
+            ...formatters
+            ...linters
+            ...type_checkers
+        }
+    }
+    ["check"] {
+        steps = new Mapping<String, Step | Group> {
+            ["init"] = init
+            ...formatters
+            ...linters
+            ...type_checkers
+        }
+    }
+    ["format"] {
+        fix = true
+        steps = new Mapping<String, Step | Group> {
+            ["init"] = init
+            ...formatters
+        }
+    }
+    ["sarif"] {
+        fix = true
+        steps = new Mapping<String, Step | Group> {
+            ["init"] = init
+            ...sarif
+        }
+    }
+}

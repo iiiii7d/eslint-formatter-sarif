@@ -1,0 +1,43 @@
+name: Mise
+description: Mise
+
+inputs:
+  envs:
+    description: envs
+    default: "lint"
+  cache:
+    description: cache
+    default: "true"
+
+outputs:
+  mise-action:
+    description: mise-action output
+    value: ${{ toJSON(steps.mise-action.outputs) }}
+  cache-node:
+    description: node cache output
+    value: ${{ toJSON(steps.cache-node.outputs) }}
+
+runs:
+  using: composite
+  steps:
+    - id: mise-env
+      shell: bash
+      run: echo "MISE_ENV=$ENVS" > "$GITHUB_ENV" # zizmor: ignore[github-env]
+      env:
+        ENVS: ${{ inputs.envs }}
+
+    - id: mise-action
+      uses: jdx/mise-action@9e7f7633ff6f6d6048a9418a68d48f288f50eb14 # v4.2.3
+      with:
+        version: v2026.7.13
+        cache: ${{ inputs.cache }}
+
+    - id: cache-node
+      if: inputs.cache
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: |
+          ~/.local/share/pnpm
+          **/node_modules
+          .nuxt
+        key: pnpm-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}

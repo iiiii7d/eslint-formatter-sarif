@@ -1,0 +1,11 @@
+{
+  "include": ["main.ts"],
+  "compilerOptions": {
+    "rootDir": "./",
+    "types": ["node"]
+  },
+  "extends": [
+    "@total-typescript/tsconfig/tsc/no-dom/app",
+    "@tsconfig/strictest"
+  ]
+}

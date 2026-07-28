@@ -1,0 +1,9 @@
+[tools]
+hk = "1.51.0"
+pkl = "0.32.0"
+zizmor = "1.27.0"
+actionlint = "1.7.12"
+"github:boostsecurityio/poutine" = "1.1.6"
+
+[tasks]
+pre-commit = { run = "hk run pre-commit" }
