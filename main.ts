@@ -1,4 +1,4 @@
-import type {ESLint, Linter} from "eslint";
+import type { ESLint, Linter } from "eslint";
 import type * as Sarif from "sarif";
 
 // Get ESLint version dynamically
@@ -24,7 +24,10 @@ function mapSeverity(severity: number): Sarif.Result.level {
 }
 
 // Map ESLint fix to SARIF Fix
-function mapFix(filePath: string, fix: NonNullable<Linter.LintMessage['fix']>): Sarif.Fix {
+function mapFix(
+  filePath: string,
+  fix: NonNullable<Linter.LintMessage["fix"]>,
+): Sarif.Fix {
   return {
     artifactChanges: [
       {
@@ -50,9 +53,7 @@ function mapFix(filePath: string, fix: NonNullable<Linter.LintMessage['fix']>): 
 }
 
 // Map ESLint LintResult to multiple SARIF Results (one per message)
-function mapLintResultToResult(
-  lintResult: ESLint.LintResult,
-): Sarif.Result[] {
+function mapLintResultToResult(lintResult: ESLint.LintResult): Sarif.Result[] {
   return lintResult.messages.map((message) => {
     const sarifResult: Sarif.Result = {
       ruleId: message.ruleId || "unknown",
@@ -95,7 +96,7 @@ function mapLintResultToResult(
 
 // Map ESLint rulesMeta to SARIF ReportingDescriptor
 function mapRulesToReportingDescriptors(
-  rulesMeta: ESLint.LintResultData["rulesMeta"]
+  rulesMeta: ESLint.LintResultData["rulesMeta"],
 ): Sarif.ReportingDescriptor[] {
   return Object.entries(rulesMeta).map(([ruleId, ruleMeta]) => ({
     id: ruleId,
@@ -110,7 +111,11 @@ function mapRulesToReportingDescriptors(
     defaultConfiguration: {
       level: "warning",
     },
-    messageStrings: ruleMeta.messages ? Object.fromEntries(Object.entries(ruleMeta.messages).map(([k, v]) => [k, {text: v}])) : undefined,
+    messageStrings: ruleMeta.messages
+      ? Object.fromEntries(
+          Object.entries(ruleMeta.messages).map(([k, v]) => [k, { text: v }]),
+        )
+      : undefined,
     properties: {
       type: ruleMeta.type,
       fixable: ruleMeta.fixable || "",
@@ -122,13 +127,13 @@ function mapRulesToReportingDescriptors(
 // Main formatter function
 export default function (
   results: ESLint.LintResult[],
-  context: ESLint.LintResultData
+  context: ESLint.LintResultData,
 ): string {
   const eslintVersion = getEslintVersion();
 
   // Convert results - each LintResult can produce multiple SARIF Results
   const sarifResults: Sarif.Result[] = results.flatMap((lintResult) =>
-    mapLintResultToResult(lintResult)
+    mapLintResultToResult(lintResult),
   );
 
   // Map rules to reporting descriptors
@@ -176,11 +181,11 @@ export default function (
       eslintResultsCount: results.length,
       eslintErrorCount: results.reduce(
         (sum, result) => sum + result.errorCount,
-        0
+        0,
       ),
       eslintWarningCount: results.reduce(
         (sum, result) => sum + result.warningCount,
-        0
+        0,
       ),
     },
   };

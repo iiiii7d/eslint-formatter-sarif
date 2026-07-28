@@ -4,6 +4,5 @@
     "github>iiiii7d/renovate-config",
     ":pinAllExceptPeerDependencies"
   ],
-  "packageRules": [
-  ]
+  "packageRules": []
 }

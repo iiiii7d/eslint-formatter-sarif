@@ -3,7 +3,7 @@
 import pluginJs from "@eslint/js";
 import prettierConfig from "eslint-config-prettier";
 // import tseslint from "typescript-eslint";
-import {defineConfig} from "eslint/config";
+import { defineConfig } from "eslint/config";
 
 export default defineConfig(
   pluginJs.configs.all,
