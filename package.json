@@ -1,8 +1,10 @@
 {
   "name": "eslint-formatter-sarif",
   "version": "1.0.0",
-  "description": "ESLint formatter that outputs lint results in SARIF (Static Analysis Results Interchange Format) 2.1.0",
   "main": "main.js",
+  "private": "true",
+  "license": "Unlicense",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "lint": "eslint ${@:-.}",
@@ -11,12 +13,6 @@
     "format": "prettier --write ${@:-.}",
     "format:check": "prettier --check ${@:-.}",
     "type-check": "tsc --noEmit"
-  },
-  "author": "",
-  "license": "Unlicense",
-  "type": "module",
-  "peerDependencies": {
-    "eslint": ">=7.0.0"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
