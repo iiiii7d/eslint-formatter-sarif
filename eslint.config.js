@@ -2,17 +2,16 @@
 
 import pluginJs from "@eslint/js";
 import prettierConfig from "eslint-config-prettier";
-// import tseslint from "typescript-eslint";
-import { defineConfig } from "eslint/config";
+import tseslint from "typescript-eslint";
 
-export default defineConfig(
+export default tseslint.config(
   pluginJs.configs.all,
-  // ...tseslint.configs.strict,
-  // ...tseslint.configs.stylistic,
+  ...tseslint.configs.strict,
+  ...tseslint.configs.stylistic,
   {
-    // plugins: {
-    //   "typescript-eslint": tseslint.plugin,
-    // },
+    plugins: {
+      "typescript-eslint": tseslint.plugin,
+    },
     rules: {
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
