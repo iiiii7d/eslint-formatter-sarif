@@ -161,9 +161,6 @@ export default async function formatter(
             name: "ESLint",
             fullName: "ESLint",
             semanticVersion: eslintVersion,
-            shortDescription: {
-              text: "An AST-based JavaScript linter.",
-            },
             informationUri: "https://eslint.org",
             organization: "eslint",
             rules: rulesDescriptors,

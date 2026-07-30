@@ -2,7 +2,7 @@ amends "package://github.com/jdx/hk/releases/download/v1.51.0/hk@1.51.0#/Config.
 import "package://github.com/jdx/hk/releases/download/v1.51.0/hk@1.51.0#/Builtins.pkl"
 
 local init = new Step {
-    check = "pnpm i"
+    check = "pnpm i && pnpm run build"
     exclusive = true
 }
 
