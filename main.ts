@@ -1,5 +1,6 @@
 import type { ESLint, Linter } from "eslint";
 import type * as Sarif from "sarif";
+import * as path from "node:path";
 
 // Get ESLint version dynamically
 function getEslintVersion(): string {
@@ -32,7 +33,7 @@ function mapFix(
     artifactChanges: [
       {
         artifactLocation: {
-          uri: filePath,
+          uri: path.relative(process.cwd(), filePath),
         },
         replacements: [
           {
@@ -68,7 +69,7 @@ function mapLintResultToResult(lintResult: ESLint.LintResult): Sarif.Result[] {
     sarifResult.locations!.push({
       physicalLocation: {
         artifactLocation: {
-          uri: lintResult.filePath,
+          uri: path.relative(process.cwd(), lintResult.filePath),
         },
         region: {
           startLine: message.line,
