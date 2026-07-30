@@ -17,6 +17,7 @@ export default tseslint.config(
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "capitalized-comments": "off",
+      "func-style": "off",
       "id-length": "off",
       "max-classes-per-file": "off",
       "max-lines": "off",

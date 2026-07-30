@@ -3,9 +3,9 @@ import type * as Sarif from "sarif";
 import * as path from "node:path";
 
 // Get ESLint version dynamically
-function getEslintVersion(): string {
+async function getEslintVersion(): Promise<string> {
   try {
-    const packageJson = require("eslint/package.json");
+    const packageJson = (await import("eslint/package.json")).default;
     return packageJson.version;
   } catch {
     return "unknown";
@@ -126,11 +126,12 @@ function mapRulesToReportingDescriptors(
 }
 
 // Main formatter function
-export default function (
+// eslint-disable-next-line max-lines-per-function
+export default async function formatter(
   results: ESLint.LintResult[],
   context: ESLint.LintResultData,
-): string {
-  const eslintVersion = getEslintVersion();
+): Promise<string> {
+  const eslintVersion = await getEslintVersion();
 
   // Convert results - each LintResult can produce multiple SARIF Results
   const sarifResults: Sarif.Result[] = results.flatMap((lintResult) =>
@@ -172,7 +173,7 @@ export default function (
           },
         },
         results: sarifResults,
-        invocations: invocations,
+        invocations,
         properties: {
           columnKind: "utf16CodeUnits",
         },
