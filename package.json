@@ -1,8 +1,8 @@
 {
-  "name": "eslint-formatter-sarif",
-  "version": "1.0.0",
+  "name": "@_7d/eslint-formatter-sarif",
+  "description": "PERSONAL USE ONLY DO NOT USE",
+  "version": "1.0.1",
   "main": "main.js",
-  "private": "true",
   "license": "Unlicense",
   "type": "module",
   "scripts": {
@@ -12,7 +12,8 @@
     "lint:sarif": "eslint -f ./main.ts --fix ${@:-.} || true",
     "format": "prettier --write ${@:-.}",
     "format:check": "prettier --check ${@:-.}",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "prepublish": "tsc"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
