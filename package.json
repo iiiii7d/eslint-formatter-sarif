@@ -18,7 +18,7 @@
     "@eslint/js": "10.0.1",
     "@total-typescript/tsconfig": "1.0.4",
     "@tsconfig/strictest": "2.0.8",
-    "@types/node": "26.1.1",
+    "@types/node": "26.2.0",
     "@types/sarif": "2.1.7",
     "eslint": "10.7.0",
     "eslint-config-prettier": "10.1.8",
