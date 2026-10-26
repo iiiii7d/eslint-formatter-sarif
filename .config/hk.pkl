@@ -1,53 +1,31 @@
-amends "package://github.com/jdx/hk/releases/download/v2.8.1/hk@2.8.1#/Config.pkl"
-import "package://github.com/jdx/hk/releases/download/v2.8.1/hk@2.8.1#/Builtins.pkl"
+amends "package://github.com/jdx/hk/releases/download/v2.8.0/hk@2.8.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v2.8.0/hk@2.8.0#/Builtins.pkl"
+import "package://github.com/iiiii7d/hk/releases/download/v2.8.0-7/hk@2.8.0-7#/Pnpm.pkl"
+import "package://github.com/iiiii7d/hk/releases/download/v2.8.0-7/hk@2.8.0-7#/Misc.pkl"
 
 local init = new Step {
-    check = "pnpm i && pnpm run build"
+    check = "pnpm i"
     exclusive = true
 }
 
 local formatters = new Mapping<String, Step> {
-    ["prettier"] = (Builtins.prettier) {
-        check = "pnpm run format:check {{ files }}"
-        fix = "pnpm run format {{ files }}"
-    }
+    ["prettier"] = Pnpm.pnpm_format
 }
 local linters = new Mapping<String, Step> {
-    ["eslint"] = (Builtins.eslint) {
-        check = "pnpm run lint {{ files }}"
-        fix = "pnpm run lint:fix {{ files }}"
-    }
-    ["zizmor"] = Builtins.zizmor
-    ["actionlint"] = Builtins.actionlint
-    ["poutine"] {
-        glob = Builtins.zizmor.glob
-        check = "poutine analyze_local . --skip github_action_from_unverified_creator_used"
-    }
-    ["hadolint"] = Builtins.hadolint
+    ["eslint"] = Pnpm.pnpm_lint
+    ["zizmor"] = Misc.zizmor
+    ["actionlint"] = Misc.actionlint
+    ["poutine"] = Misc.poutine
 }
 local type_checkers = new Mapping<String, Step> {
-    ["type_check"] {
-        glob = Builtins.eslint.glob
-        check = "pnpm run type-check"
-    }
+    ["tsc"] = Pnpm.pnpm_type_check
 }
 local sarif = new Mapping<String, Step> {
-    ["mkdir"] {
-        fix = "mkdir .sarif || true"
-        exclusive = true
-    }
-    ["eslint"] {
-        fix = "pnpm run lint:sarif > .sarif/eslint.sarif"
-    }
-    ["zizmor"] {
-        fix = linters["zizmor"].fix.replaceAll("{{ files }}", ".") + " --format=sarif > .sarif/zizmor.sarif"
-    }
-    ["actionlint"] {
-        check = "actionlint -format \"$(curl -sSL \"https://cdn.jsdelivr.net/gh/kjanat/actionlint/sarif_template.txt\")\" > .sarif/actionlint.sarif"
-    }
-    ["poutine"] {
-        check = linters["poutine"].check as String + " --format=sarif > .sarif/poutine.sarif"
-    }
+    ["mkdir"] = Misc.mkdir_sarif(".sarif")
+    ["eslint"] = Pnpm.pnpm_lint_sarif(".sarif")
+    ["zizmor"] = Misc.zizmor_sarif(".sarif")
+    ["actionlint"] = Misc.actionlint_sarif(".sarif")
+    ["poutine"] = Misc.poutine_sarif(".sarif")
     ...type_checkers
 }
 
